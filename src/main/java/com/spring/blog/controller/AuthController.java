@@ -3,6 +3,7 @@ package com.spring.blog.controller;
 import com.spring.blog.dto.AuthenticationResponse;
 import com.spring.blog.dto.LoginRequest;
 import com.spring.blog.dto.RegisterRequest;
+import com.spring.blog.exception.UserNameCantBeNull;
 import com.spring.blog.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,10 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody RegisterRequest registerRequest) {
+        if(registerRequest.getUsername()==null)
+        {
+         throw new UserNameCantBeNull("UserName Cant be null");
+        }
         authService.signup(registerRequest);
         return new ResponseEntity(HttpStatus.OK);
     }
